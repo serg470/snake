@@ -26,6 +26,7 @@ namespace Snake
             Point tail = pList.First();
             pList.Remove(tail);
             Point head = GetNextPoint();
+            pList.Add(head);
 
             tail.Clear();
             head.Draw();
@@ -40,5 +41,29 @@ namespace Snake
 
         }
 
+        public void HandleKey(ConsoleKey key)
+        {
+            if (key == ConsoleKey.LeftArrow)
+                  direction = Direction.LEFT;
+            else if (key == ConsoleKey.RightArrow)
+                direction = Direction.RIGHT;
+            else if (key == ConsoleKey.DownArrow)
+                direction = Direction.DOWN;
+            else if (key == ConsoleKey.UpArrow)
+                direction = Direction.UP;
+        }
+
+        internal bool Eat(Point food)
+        {
+            Point head = GetNextPoint();
+            if (head.IsHit(food))
+            {
+                food.sym = head.sym;
+                pList.Add(food);
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }
