@@ -14,15 +14,8 @@ namespace Snake
 			Console.SetWindowSize(80, 25);
 			Console.SetBufferSize(80, 25);
 
-			HorizontalLine upline = new HorizontalLine(0,78,0,'+');
-			HorizontalLine downline = new HorizontalLine(0, 78, 24, '+');
-			VerticalLines leftline = new VerticalLines(0, 24, 0, '+');
-			VerticalLines rightline = new VerticalLines(0, 24, 78, '+');
-
-			upline.Draw();
-			downline.Draw();
-			leftline.Draw();
-			rightline.Draw();
+			Walls walls = new Walls(80, 25);
+			walls.Draw();
 
 
 			Point p = new Point(4, 5, '*');
@@ -36,6 +29,10 @@ namespace Snake
 
 			while (true)
 			{
+				if (walls.IsHit(snake) || snake.IsHitTail())
+				{
+					break;
+				}
 				if (snake.Eat(food))
 				{
 					food = foodCreator.CreateFood();
@@ -47,7 +44,6 @@ namespace Snake
 				}
 
 				Thread.Sleep(100);
-
 				if (Console.KeyAvailable)
 				{
 					ConsoleKeyInfo key = Console.ReadKey();
